@@ -1,0 +1,74 @@
+[
+    {
+      "name": "Party",
+      "id": 1,
+      "parent": null,
+      "sensitivity": 0
+    },
+    {
+      "name": "Person",
+      "id": 2,
+      "parent": 1,
+      "sensitivity": 1
+    },
+    {
+      "name": "Company",
+      "id": 3,
+      "parent": 1,
+      "sensitivity": 0
+    },
+    {
+      "name": "ContactMethod",
+      "id": 4,
+      "parent": 1,
+      "sensitivity": 0
+    },
+    {
+      "name": "Phone Number",
+      "id": 5,
+      "parent": 4,
+      "sensitivity": 0
+    },
+    {
+      "name": "Email",
+      "id": 6,
+      "parent": 4,
+      "sensitivity": 0
+    },
+    {
+      "name": "Address",
+      "id": 7,
+      "parent": 4,
+      "sensitivity": 1
+    },
+    {
+      "name": "Shopping history",
+      "id": 7,
+      "parent": null,
+      "sensitivity": 1
+    },
+    {
+      "name": "Order details",
+      "id": 8,
+      "parent": 7,
+      "sensitivity": 1
+    },
+    {
+      "name": "Items",
+      "id": 9,
+      "parent": 7,
+      "sensitivity": 0
+    },
+    {
+      "name": "Invalid record",
+      "id": 10,
+      "parent": 99,
+      "sensitivity": 0
+    },
+    {
+      "name": "Payment information",
+      "id": 11,
+      "parent": 7,
+      "sensitivity": 2
+    }
+  ]
