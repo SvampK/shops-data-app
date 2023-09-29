@@ -43,32 +43,32 @@
     },
     {
       "name": "Shopping history",
-      "id": 7,
+      "id": 8,
       "parent": null,
       "sensitivity": 1
     },
     {
       "name": "Order details",
-      "id": 8,
-      "parent": 7,
+      "id": 9,
+      "parent": 8,
       "sensitivity": 1
     },
     {
       "name": "Items",
-      "id": 9,
-      "parent": 7,
+      "id": 10,
+      "parent": 8,
       "sensitivity": 0
     },
     {
       "name": "Invalid record",
-      "id": 10,
+      "id": 11,
       "parent": 99,
       "sensitivity": 0
     },
     {
       "name": "Payment information",
-      "id": 11,
-      "parent": 7,
+      "id": 12,
+      "parent": 8,
       "sensitivity": 2
     }
   ]
