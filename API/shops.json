@@ -2,44 +2,44 @@
     {
       "id": 1,
       "country": "Sweden",
-      "Shop": "Shop A",
-      "Data entities": [12]
+      "shop": "Shop A",
+      "data entities": [12]
     },
     {
       "id": 2,
       "country": "Sweden",
-      "Shop": "Shop B",
-      "Data entities": [1, 12]
+      "shop": "Shop B",
+      "data entities": [1, 12]
     },
     {
       "id": 3,
       "country": "Denmark",
-      "Shop": "Shop C",
-      "Data entities": [1, 12]
+      "shop": "Shop C",
+      "data entities": [1, 12]
     },
     {
       "id": 4,
       "country": "Norway",
-      "Shop": "Shop D",
-      "Data entities": [1]
+      "shop": "Shop D",
+      "data entities": [1]
     },
     {
       "id": 5,
       "country": "Sweden",
-      "Shop": "Shop E",
-      "Data entities": [1, 12]
+      "shop": "Shop E",
+      "data entities": [1, 12]
     },
     {
       "id": 6,
       "country": "Sweden",
-      "Shop": "Shop F",
-      "Data entities": [1, 12]
+      "shop": "Shop F",
+      "data entities": [1, 12]
     },
     {
       "id": 7,
       "country": "Norway",
-      "Shop": "Shop G",
-      "Data entities": [1, 12]
+      "shop": "Shop G",
+      "data entities": [1, 12]
     }
   ]
   

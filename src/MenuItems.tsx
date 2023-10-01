@@ -1,51 +1,83 @@
 import {
-    Checkbox,
-    FormGroup,
+    Box,
+    Chip,
+    FormControl,
     InputLabel,
-    ListItemIcon,
-    ListItemText,
     MenuItem,
     Select,
     SelectChangeEvent
 } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
+// interface ISelection {
+//     name: string
+//     value: string;
+// }
 interface IProps {
-    items: string[] | number[];
-    handleChange: (event: SelectChangeEvent<string[]>) => void;
-    selections: string[];
+    items: string[];
+    // handleChange: (event: SelectChangeEvent<string[]>) => void;
+    selections: string[] | string;
+    title?: string;
+    setSelections: React.Dispatch<React.SetStateAction<string[] | string>>;
+    selectedCountries?: string[];
+    filterOptions: ()=> void
 }
 
 function MenuItems(props: IProps) {
-    const { items, handleChange, selections } = props;
+    const {
+        items,
+        title,
+        setSelections,
+        selections,
+        selectedCountries,
+        filterOptions
+    } = props;
+
+
+
+    const handleChange = (event: SelectChangeEvent<string[] | string>) => {
+        const { target: { value } } = event;
+        const selectName = event.target.name.toLowerCase();
+        const selectValue: string | string[] = value !== undefined ? value : [];
+        switch (selectName){
+              case 'country':
+                if(selectedCountries!== undefined && selectedCountries.length > 0){
+                    filterOptions();
+                }
+                 break;
+                 default: 
+                 console.log('default');
+                }
+
+        setSelections(selectValue)
+        console.log('selections1', selections, 'e target', event.target)
+    };
 
     return (
-        <div>
 
-            <FormGroup>
-                <InputLabel id="demo-simple-select-label">Request Type(s)</InputLabel>
-                <Select
-                    value={selections}
-                    label="Age"
-                    onChange={handleChange}
-                    multiple
-                    renderValue={(selections) => selections.join(',')}
-                >
-                    {items.map(item => (
-                        <MenuItem key={item} value={item}>
-                            <ListItemIcon>
-                                <Checkbox checked={selections.indexOf(item) > -1} />
-                            </ListItemIcon>
-                            <ListItemText primary={item} />
-                        </MenuItem>
-                    ))}
-                </Select>
-            </FormGroup>
+        <FormControl variant="filled">
+            <InputLabel>{title}</InputLabel>
+            <Select
+                multiple
+                value={selections}
+                onChange={handleChange}
+                name={title}
+                renderValue={(selected) => (
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                      {typeof selected !=='string'&& selected.map((value) => (
+                        <Chip key={value} label={value} />
+                      ))}
+                    </Box>
+                  )}
 
-
-
-
-        </div>
+            >
+                {items.map(item => (
+                    <MenuItem key={item} value={item}>
+                        {item}
+                    </MenuItem>
+                ))}
+            </Select>
+        </FormControl>
 
     );
 }
