@@ -43,8 +43,8 @@ function MenuItems(props: IProps) {
 
 
         setSelections(selectValue)
-        console.log(selectName);
-        console.log('selections1', selections, 'e target', event.target)
+        // console.log(selectName);
+        // console.log('selections1', selections, 'e target', event.target)
     };
 
     return (

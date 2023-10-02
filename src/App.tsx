@@ -31,11 +31,12 @@ function App() {
   const [modelData, setModelData] = useState<any[]>([]);
   const [countries, setCountries] = useState<string[]>([]);
   const [shops, setShops] = useState<string[]>([]);
+  const [itemUnder, setItemUnder] = useState<string[]>([]);
   const [sensitivity, setSensitivity] = useState<string[]>([]);
   const [selectedCountries, setSelectedCounties] = useState<string | string[]>([]);
   const [selectedShops, setSelectedShops] = useState<string | string[]>([]);
   const [selectedSensitivity, setSelectedSensitivity] = useState<string[] | string>([])
-
+  const [selectedItemUnder, setSelectedItemUnder] = useState<string[] | string>([])
 
 
 
@@ -44,7 +45,7 @@ function App() {
 
   const requestItems: string[] =
     [
-      'Country', 'Shop', 'Sensitivity Level'
+      'Country', 'Shop', 'Sensitivity Level', 'Items'
     ]
   const handleOptions = (options: any[], dataKey: string): string[] => {
 
@@ -57,7 +58,7 @@ function App() {
       case 'country':
         console.log(shopData.filter(i => selectValue.includes(i.country)))
         if (selectValue.length > 0) {
-          data = shopData.filter(i => selectValue.includes(i.country))
+          const data = shopData.filter(i => selectValue.includes(i.country))
           setShops(handleOptions(data, 'shop'));
         } else setShops(handleOptions(shopData, 'shop'))
         break;
@@ -68,7 +69,7 @@ function App() {
           const findShopEntities = (shopData.filter(k => selectValue.includes(k.shop))).map(j => j['data entities']);
           const removeDoubleEntity= findShopEntities.length > 1 ? findShopEntities[0].concat(findShopEntities[1].filter((i: any) => !findShopEntities[0].includes(i))):findShopEntities;
 
-          data = modelData.filter(i => removeDoubleEntity.includes(i.id))
+          const data: string[]  = modelData.filter(i => removeDoubleEntity.includes(i.id))
           console.log(findShopEntities,removeDoubleEntity, data, modelData)
 
          setSensitivity(handleOptions(data, 'sensitivity'))
@@ -78,8 +79,12 @@ function App() {
 
       case 'sensitivity level':
         if (selectValue.length > 0) {
-          // filterOptions();
-        }
+          console.log('sensitivity level switch')
+          const data = modelData.filter(i => selectValue.includes(i.sensitivity.toString()))
+          setItemUnder(handleOptions(data, 'name'));
+          console.log(data);
+        
+        }else setItemUnder( handleOptions(modelData, 'name'))
         break;
 
       default: console.log('default')
@@ -126,9 +131,11 @@ function App() {
     const countriesValue = handleOptions(shopData, 'country')
     const shopsValue = handleOptions(shopData, 'shop')
     const sensitivityValue = handleOptions(modelData, 'sensitivity')
+    const itemUnderSensitivity = handleOptions(modelData, 'name');
     setCountries(countriesValue)
     setShops(shopsValue)
     setSensitivity(sensitivityValue)
+    setItemUnder(itemUnderSensitivity)
   }, [shopData, modelData]);
 
 
@@ -158,7 +165,14 @@ function App() {
             setSelections={setSelectedSensitivity}
             filterOptions={filterOptions}
           />
-
+          {selectedSensitivity.length >0 &&
+          <MenuItems
+            title={requestItems[3]}
+            items={itemUnder}
+            selections={selectedItemUnder}
+            setSelections={setSelectedItemUnder}
+            filterOptions={filterOptions}
+          />}
         </Stack>
       </Paper>
       <Button size='medium' variant='contained'>Submit</Button>
