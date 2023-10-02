@@ -4,7 +4,7 @@ import {
   Paper,
   Stack,
 } from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import MenuItems from "./MenuItems";
 import { couldStartTrivia } from "typescript";
 
@@ -29,10 +29,13 @@ function App() {
 
   const [shopData, setShopData] = useState<any[]>([]);
   const [modelData, setModelData] = useState<any[]>([]);
-  const [selectedSensitivity, setSelectedSensitivity] = useState<string[] | string>([])
+  const [countries, setCountries] = useState<string[]>([]);
+  const [shops, setShops] = useState<string[]>([]);
+  const [sensitivity, setSensitivity] = useState<string[]>([]);
   const [selectedCountries, setSelectedCounties] = useState<string | string[]>([]);
   const [selectedShops, setSelectedShops] = useState<string | string[]>([]);
-  // const [countries, setCountries] = useState<string[]>([]);
+  const [selectedSensitivity, setSelectedSensitivity] = useState<string[] | string>([])
+
 
 
 
@@ -41,35 +44,62 @@ function App() {
 
   const requestItems: string[] =
     [
-      'Country', 'Shops', 'Sensitivity Level'
+      'Country', 'Shop', 'Sensitivity Level'
     ]
   const handleOptions = (options: any[], dataKey: string): string[] => {
-    //const filterOptions = 
-    // switch (dataKey){
-    //   case 'country':
-    //     if(selectedCountries.length > 0){
-    //       console.log('country')
-    //       console.log(shopData.filter(i => i.country === selectedCountries))
-    //     }
-    //      break;
-    //      default: 
-    //      console.log('default');
-    //     }
+
     return [...new Set(options.map((i) => i[dataKey].toString(), { dataKey }))]
   }
-  const filterOptions = () => {
-    console.log('in filter options')
+
+  const filterOptions = (selectName: string, selectValue: string[] | string): string[] => {
+    let data: string[] = []
+    switch (selectName) {
+      case 'country':
+        console.log(shopData.filter(i => selectValue.includes(i.country)))
+        if (selectValue.length > 0) {
+          data = shopData.filter(i => selectValue.includes(i.country))
+          setShops(handleOptions(data, 'shop'));
+        } else setShops(handleOptions(shopData, 'shop'))
+        break;
+
+      case 'shop':
+        if (selectValue.length > 0) {
+          console.log('shop switch')
+          const findShopEntities = (shopData.filter(k => selectValue.includes(k.shop))).map(j => j['data entities']);
+          const removeDoubleEntity= findShopEntities.length > 1 ? findShopEntities[0].concat(findShopEntities[1].filter((i: any) => !findShopEntities[0].includes(i))):findShopEntities;
+
+          data = modelData.filter(i => removeDoubleEntity.includes(i.id))
+          console.log(findShopEntities,removeDoubleEntity, data, modelData)
+
+         setSensitivity(handleOptions(data, 'sensitivity'))
+
+        } else setSensitivity(handleOptions(modelData, 'sensitivity'))
+        break;
+
+      case 'sensitivity level':
+        if (selectValue.length > 0) {
+          // filterOptions();
+        }
+        break;
+
+      default: console.log('default')
+
+    }
+    return data;
+    // if (selectedCountries.length > 0) {
+    //   console.log(shopData.filter(i => selectedCountries.includes(i.country)))
+    //   const data = shopData.filter(i => selectedCountries.includes(i.country))
+    //   setShops(() =>handleOptions(data, 'shop'));
+    // }
   }
 
-  const countries = handleOptions(shopData, 'country')
-  const shops = handleOptions(shopData, 'shop')
-  const sensitivity = handleOptions(modelData, 'sensitivity')
-  if (selectedCountries.length > 0) {
-    console.log('country')
-    console.log(shopData.filter(i => i.country === selectedCountries))
-  }
+  useEffect(() => {
+    console.log(selectedCountries)
 
-  const getData = () => {
+
+  }, [selectedCountries])
+
+  const getData = useCallback(() => {
     var requestOptions: object = {
       method: "GET",
       redirect: "follow",
@@ -84,14 +114,23 @@ function App() {
       .then((response) => response.json())
       .then((result) => setModelData(result))
       .catch((error) => console.log("error", error));
-    // setCountries(handleOptions(shopData, 'country'))
-  };
+  }, []);
+
+
   useEffect(() => {
     getData();
-    // setCountries(handleOptions(shopData, 'country'))
-    // handleOptions(shopData, 'shop')
-    // handleOptions(modelData, 'sensitivity')
-  }, []);
+
+  }, [getData]);
+
+  useEffect(() => {
+    const countriesValue = handleOptions(shopData, 'country')
+    const shopsValue = handleOptions(shopData, 'shop')
+    const sensitivityValue = handleOptions(modelData, 'sensitivity')
+    setCountries(countriesValue)
+    setShops(shopsValue)
+    setSensitivity(sensitivityValue)
+  }, [shopData, modelData]);
+
 
   return (
     <div className="App">
